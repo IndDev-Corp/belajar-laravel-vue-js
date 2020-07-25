@@ -1971,26 +1971,162 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      nominalQurbans: [{
-        id: 1,
-        nama_nominal: "Paket A",
-        nominal_qurban: "Rp10.000",
-        status: '<span class="badge badge-danger">Gagal</span>'
-      }, {
-        id: 2,
-        nama_nominal: "Paket B",
-        nominal_qurban: "Rp20.000",
-        status: '<span class="badge badge-warning">Menunggu</span>'
-      }, {
-        id: 3,
-        nama_nominal: "Paket C",
-        nominal_qurban: "Rp30.000",
-        status: '<span class="badge badge-success">Sukses</span>'
-      }]
+      nominalQurbans: [],
+      formShow: false,
+      formData: {
+        nama_nominal: null,
+        nominal_qurban: 10000,
+        status: "Gagal"
+      },
+      errors: {
+        nama_nominal: null,
+        nominal_qurban: null,
+        status: null
+      }
     };
+  },
+  created: function created() {
+    // test variabel
+    var hamada = function hamada() {};
+
+    var angka = 1;
+    var angka2 = 2;
+
+    var adif = function adif() {};
+
+    this.getData();
+  },
+  methods: {
+    storeNominalQurban: function storeNominalQurban() {
+      var _this = this;
+
+      // validasi
+      // let adaError = false;
+      // this.errors.nama_nominal = null;
+      // this.errors.nominal_qurban = null;
+      // if (
+      //     this.formData.nama_nominal == "" ||
+      //     this.formData.nama_nominal == null
+      // ) {
+      //     this.errors.nama_nominal = "Nama nominal tidak boleh kosong";
+      //     adaError = true;
+      // }
+      // if (
+      //     this.formData.nominal_qurban == "" ||
+      //     this.formData.nominal_qurban == null
+      // ) {
+      //     this.errors.nominal_qurban =
+      //         "Nominal qurban tidak boleh kosong";
+      //     adaError = true;
+      // }
+      // if (adaError) {
+      //     return;
+      // }
+      // mengirim data ke tabel nominal qurban
+      axios.post("/api/nominal-qurban", this.formData).then(function (response) {
+        alert(response.data.message);
+
+        _this.getData();
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          var data = error.response.data; // alert(data.message);
+
+          var errors = data.errors;
+
+          if (errors.nama_nominal) {
+            _this.errors.nama_nominal = errors.nama_nominal[0];
+          }
+
+          if (errors.nominal_qurban) {
+            _this.errors.nominal_qurban = errors.nominal_qurban[0];
+          }
+
+          if (errors.status) {
+            _this.errors.status = errors.status[0];
+          }
+        }
+      });
+    },
+    getData: function getData() {
+      var _this2 = this;
+
+      // mengambil data dari tabel nominal qurban
+      axios.get("/api/nominal-qurban").then(function (response) {
+        _this2.nominalQurbans = response.data;
+      });
+    }
   }
 });
 
@@ -2008,7 +2144,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nh2[data-v-0ba32180] {\r\n    color: red;\n}\r\n", ""]);
+exports.push([module.i, "\nh2[data-v-0ba32180] {\r\n    color: black;\n}\r\n", ""]);
 
 // exports
 
@@ -3203,42 +3339,269 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", [_vm._v("Ini data nominal qurban")]),
+    _c("h2", [_vm._v("Nominal qurban")]),
     _vm._v(" "),
-    _c(
-      "table",
-      { staticClass: "table table-bordered table-hover table-striped" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          [
-            _vm._l(_vm.nominalQurbans, function(nominalQurban) {
-              return [
-                _c("tr", { key: nominalQurban.id }, [
-                  _c("td", [_vm._v(_vm._s(nominalQurban.id))]),
+    _vm.formShow
+      ? _c("div", { staticClass: "card mb-3" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "form",
+              {
+                attrs: { action: "" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.storeNominalQurban()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "nama_nominal" } }, [
+                        _vm._v("Nama Nominal")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.formData.nama_nominal,
+                            expression: "formData.nama_nominal"
+                          }
+                        ],
+                        class: [
+                          "form-control",
+                          _vm.errors.nama_nominal ? "is-invalid" : ""
+                        ],
+                        attrs: { id: "nama_nominal", type: "text" },
+                        domProps: { value: _vm.formData.nama_nominal },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.formData,
+                              "nama_nominal",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.errors.nama_nominal))
+                      ])
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(nominalQurban.nama_nominal))]),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "nominal_qurban" } }, [
+                        _vm._v("Nominal Qurban")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.formData.nominal_qurban,
+                            expression: "formData.nominal_qurban"
+                          }
+                        ],
+                        class: [
+                          "form-control",
+                          _vm.errors.nominal_qurban ? "is-invalid" : ""
+                        ],
+                        attrs: {
+                          id: "nominal_qurban",
+                          type: "number",
+                          min: "10000",
+                          max: "30000000"
+                        },
+                        domProps: { value: _vm.formData.nominal_qurban },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.formData,
+                              "nominal_qurban",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "invalid-feedback" }, [
+                        _vm._v(_vm._s(_vm.errors.nominal_qurban))
+                      ])
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(nominalQurban.nominal_qurban))]),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "status" } }, [
+                        _vm._v("Status")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.formData.status,
+                              expression: "formData.status"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "status" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.formData,
+                                "status",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "Gagal" } }, [
+                            _vm._v("Gagal")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Menunggu" } }, [
+                            _vm._v("Menunggu")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Sukses" } }, [
+                            _vm._v("Sukses")
+                          ])
+                        ]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("td", {
-                    domProps: { innerHTML: _vm._s(nominalQurban.status) }
-                  }),
-                  _vm._v(" "),
-                  _vm._m(1, true)
+                  _c("div", { staticClass: "col-12" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Simpan")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.formShow = false
+                          }
+                        }
+                      },
+                      [_vm._v("Batal")]
+                    )
+                  ])
                 ])
               ]
-            })
-          ],
-          2
+            )
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("h4", { staticClass: "card-title" }, [
+          _vm._v("\n                Data Nominal Qurban\n                "),
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-primary float-right",
+              attrs: { href: "" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.formShow = true
+                }
+              }
+            },
+            [_vm._v("Tambah")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-hover table-striped" },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              [
+                _vm._l(_vm.nominalQurbans, function(nominalQurban) {
+                  return [
+                    _c("tr", { key: nominalQurban.id }, [
+                      _c("td", [_vm._v(_vm._s(nominalQurban.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(nominalQurban.nama_nominal))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(nominalQurban.nominal_qurban))]),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { innerHTML: _vm._s(nominalQurban.status) }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(2, true)
+                    ])
+                  ]
+                })
+              ],
+              2
+            )
+          ]
         )
-      ]
-    )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Form Tambah Nominal Qurban")
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -15617,15 +15980,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/components/nominal-qurban/Index.vue ***!
   \**********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Index_vue_vue_type_template_id_0ba32180_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=0ba32180&scoped=true& */ "./resources/js/components/nominal-qurban/Index.vue?vue&type=template&id=0ba32180&scoped=true&");
 /* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/components/nominal-qurban/Index.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Index_vue_vue_type_style_index_0_id_0ba32180_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Index.vue?vue&type=style&index=0&id=0ba32180&scoped=true&lang=css& */ "./resources/js/components/nominal-qurban/Index.vue?vue&type=style&index=0&id=0ba32180&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Index_vue_vue_type_style_index_0_id_0ba32180_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Index.vue?vue&type=style&index=0&id=0ba32180&scoped=true&lang=css& */ "./resources/js/components/nominal-qurban/Index.vue?vue&type=style&index=0&id=0ba32180&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -15657,7 +16019,7 @@ component.options.__file = "resources/js/components/nominal-qurban/Index.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/nominal-qurban/Index.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
